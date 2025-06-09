@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Página con Navbar fijo</title>
+  <style>
+    :root {
+      --nav-height: 10vh;
+      /* Variables para los enlaces del navbar */
+      --nav-link-color: white;
+      --nav-link-bg: rgba(255, 255, 255, 0.1);
+      --nav-link-hover-bg: rgba(255, 255, 255, 0.3);
+      --nav-link-font: 1rem;
+      --nav-link-padding: 0.4rem 0.8rem;
+      --nav-link-radius: 6px;
+      --nav-link-margin: 0 0.5rem;
+      --nav-link-transition: background-color 0.3s ease;
+    }
+
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-snap-type: y mandatory;
+      overflow-y: scroll;
+    }
+
+    section {
+      scroll-snap-align: start;
+  }
+
+    body {
+      font-family: sans-serif;
+    }
+
+    
+
+    /* NAVBAR --------------------------------------------- */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      height: var(--nav-height);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      transition: background-color 0.3s ease;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 2rem;
+    }
+
+    /* Enlaces del navbar */
+    .nav-link {
+      color: var(--nav-link-color);
+      text-decoration: none;
+      font-weight: bold;
+      font-size: var(--nav-link-font);
+      padding: var(--nav-link-padding);
+      border-radius: var(--nav-link-radius);
+      margin: var(--nav-link-margin);
+      background-color: var(--nav-link-bg);
+      transition: var(--nav-link-transition);
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      background-color: var(--nav-link-hover-bg);
+      text-decoration: none;
+    }
+    
+      nav ul {
+        flex-direction: row;
+        gap: 1.5rem;
+      }
+
+      nav .fila {
+        flex-direction: row;
+        align-items: center;
+      }
+
+      nav {
+        flex-direction: row;
+        justify-content: center;
+        padding-top: 0;
+      }
+
+      .hero-content {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+    
+
+    /* SECCIONES ------------------------------------------ */
+    section {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 2rem;
+      color: white;
+    }
+
+    #inicio    { background-color: #ff595e; }
+    #servicio  { background-color: #1982c4; }
+    #porque    { background-color: #6a4c93; }
+    #pronto    { background-color: #8ac926; }
+    #acerca    { background-color: #ffca3a; color: black; }
+
+    /* Ajuste para que el contenido no quede oculto bajo el navbar */
+    section::before {
+      content: "";
+      display: block;
+      height: var(--nav-height);
+    }
+
+     /* Efecto de animación para el hero section */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-content {
+      display: flex;
+      
+      flex-direction: column;
+      text-align: center;
+      
+      justify-content: space-between;
+      align-items: center;
+      padding: 2rem;
+      animation: fadeIn 1s ease;
+    }
+
+    .hero-left, .hero-right {
+      flex: 1;
+      margin: 1rem;
+    }
+    .hero-left h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    .hero-left h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1.2rem;
+      color: #ccc;
+    }
+    .hero-left p {
+      margin-bottom: 1rem;
+      line-height: 1.6;
+    }
+
+
+    /* Estilos para el botón de WhatsApp */
+    .whatsapp-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    z-index: 1001;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .whatsapp-btn img {
+    width: 100%;
+    height: auto;
+    }
+
+    .whatsapp-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Estilos para el video de la sección servicio */
+    /* Sección Servicio con video de fondo */
+    #servicio {
+      position: relative;
+      overflow: hidden;
+      background-color: transparent;
+    }
+
+    #servicio video {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      min-width: 100%;
+      min-height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+
+    /* Nueva tarjeta en la sección Servicio */
+        /* Estilos para las tarjetas dentro de la sección servicio */
+    .card-container {
+      position: relative;
+      z-index: 1; /* asegura que esté por encima del video */
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      flex-wrap: wrap;
+      padding: 2rem;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.5);
+      backdrop-filter: blur(5px);
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin: 1rem;
+      flex: 1 1 30%;
+      min-width: 250px;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .card h3 {
+      margin-bottom: 1rem;
+    }
+
+ #porque {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 1rem;
+  background-color: #6a4c93; /* Color de fondo existente */
+}
+
+.porque-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.phrases-container {
+  margin-top: 1rem;
+  width: 100%;
+}
+
+.phrases-container p {
+  font-size: 1.5rem;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  margin: 0;
+}
+
+#pronto {
+  background-color: #000; /* Fondo negro */
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.power-shell-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.power-card {
+  background-color: rgba(0, 0, 0, 0.8);
+  border: 2px solid #00ff00; /* Verde hacker */
+  color: #00ff00;
+  width: 300px;
+  padding: 1rem;
+  text-align: center;
+  border-radius: 8px;
+  font-family: "Courier New", Courier, monospace;
+  box-shadow: 0 4px 6px rgba(0, 255, 0, 0.2);
+}
+
+.power-card .card-img {
+  width: 100%;
+  height: 150px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.power-card h3 {
+  margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+}
+
+.power-card p {
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+#acerca {
+  background-color: #ffffff;
+  color: #333;
+  padding: 2rem;
+  border-top: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.acerca-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Roboto', sans-serif; /* Puedes cargar la fuente Roboto si lo deseas */
+}
+
+.social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 1rem;
+}
+
+.social-icons a img {
+  width: 40px;
+  height: 40px;
+  filter: grayscale(100%);
+  transition: filter 0.3s ease, transform 0.3s ease;
+}
+
+.social-icons a img:hover {
+  filter: none;
+  transform: scale(1.1);
+}
+
+.acerca-description {
+  max-width: 600px;
+  text-align: center;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+#acerca a {
+  color: #000;
+  text-decoration: none;
+}
+#acerca a:hover {
+  color: #444;
+}
+
+#acerca .social-icons a img {
+  width: 250px;  /* Ancho aumentado */
+  height: 250px; /* Alto aumentado */
+  filter: grayscale(100%);
+  transition: filter 0.3s ease, transform 0.3s ease;
+  border-radius: 40px; /* Bordes redondeados */
+}
+
+/* Animación para efecto de deslizar de izquierda a derecha en escritorio */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+
+/* Para móviles: animación cíclica que muestra una tarjeta a la vez */
+@keyframes cycleCards {
+  0%, 33.33% { opacity: 0; }
+  16.67% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* Se aplica a las tarjetas cuando se agrega la clase "animate" */
+.card.animate {
+  animation: slideIn 1s ease-out forwards;
+}
+
+    /* RESPONSIVE para móviles ----------------------------- */
+    @media (max-width: 800px) {
+      @media (max-width: 800px) {
+  :root {
+    --nav-link-padding: 0.1rem 0.6rem;
+    --nav-link-radius: 8px;
+  }
+
+  nav {
+    top: -10px;
+    height: calc(var(--nav-height) + 6rem);
+    flex-direction: column;
+  }
+
+  nav ul {
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  nav .fila {
+    display: flex;
+    gap: 2rem; /* más espacio horizontal entre enlaces */
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .whatsapp-btn {
+    width: 50px;
+    height: 50px;
+    bottom: 15px;
+    right: 15px;
+  }
+
+  /* Ajuste para que la sección inicio esté un poco más abajo y los textos sean más pequeños */
+  #inicio .hero-content {
+    padding-top: 5rem;
+    text-align: center;
+  }
+  
+  #inicio .hero-content h1 {
+    font-size: 1.5rem;
+  }
+  
+  #inicio .hero-content h2 {
+    font-size: 1.1rem;
+  }
+  
+  #inicio .hero-content p {
+    padding-top: 10px;
+    font-size: 1.2rem;
+  }
+
+  /* Para móviles: solo se muestra una tarjeta centrada que se alterna cada 20 segundos */
+  .card-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .card {
+    opacity: 0; /* inicialmente ocultas */
+    animation: cycleCards 60s infinite ease-in-out;
+    font-size: 0.9rem;
+    flex: none;
+    width: 80%;
+    margin: 0.5rem auto;
+  }
+  /* Definimos el retraso para cada tarjeta: 0s, 20s y 40s respectivamente */
+  .card:nth-child(1) {
+    animation-delay: 0s;
+  }
+  .card:nth-child(2) {
+    animation-delay: 10s;
+  }
+  .card:nth-child(3) {
+    animation-delay: 15s;
+  }
+  
+  /* Animación para mostrar una tarjeta a la vez */
+  @keyframes cycleCards {
+    0%   { opacity: 0; transform: scale(0.95); }
+    10%  { opacity: 1; transform: scale(1); }
+    30%  { opacity: 1; transform: scale(1); }
+    40%  { opacity: 0; transform: scale(0.95); }
+    100% { opacity: 0; transform: scale(0.95); }
+  }
+
+  .power-shell-container {
+    position: relative;
+    width: 100%;
+    height: 300px; /* Define la altura deseada */
+  }
+  .power-card {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    aspect-ratio: 1;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+  .power-card.active {
+    opacity: 1;
+  }
+
+  #acerca .social-icons a img {
+  width: 100px;  /* Ancho aumentado */
+  height: 100px; /* Alto aumentado */
+  filter: grayscale(100%);
+  transition: filter 0.3s ease, transform 0.3s ease;
+  border-radius: 20px; 
+}
+
+
+  #pronto {
+    background-color: #000;
+    padding: 0; /* Elimina el padding extra */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 350px; /* Ajusta la altura mínima si lo necesitas */
+  }
+
+  .power-shell-container {
+    position: relative;
+    width: 100%;
+    height: 350px; /* Igual a la altura de una tarjeta */
+    max-width: 100vw;
+    margin: 0 auto;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  .power-card {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90vw;
+    max-width: 350px;
+    aspect-ratio: 1/1.2;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    margin: 0;
+  }
+  .power-card.active {
+    opacity: 1;
+  }
+
+
+ 
+
+
+  
+
+  
+}
+
+      
+
+    }
+
+   
+    
+  </style>
+</head>
+<body>
+
+      
+  <nav id="navbar">
+    <ul>
+      <li class="fila fila-1">
+        <a href="#inicio" class="nav-link">• Inicio</a>
+        <a href="#servicio" class="nav-link">• Servicio
+            
+
+        </a>
+        <a href="#porque" class="nav-link">• ¿Por qué nosotros?</a>
+      </li>
+      <li class="fila fila-2">
+        <a href="#pronto" class="nav-link">• Muy pronto</a>
+        <a href="#acerca" class="nav-link">• Acerca de nosotros</a>
+      </li>
+    </ul>
+  </nav>
+  <section id="inicio">
+    <div class="hero-content">
+      <h1>Impulsa tu negocio con una web optimizada</h1>
+         <h2>Para la nueva era de IA y motores de búsqueda</h2>
+         <p>
+           Los motores de búsqueda han evolucionado: ahora emplean inteligencia artificial y enormes bases de datos para decidir qué marcas aparecen primero. Si tu sitio no está preparado, tu competencia tomará la delantera.
+         </p>
+         <p>
+           En [Nombre de tu agencia] diseñamos y posicionamos páginas web que cumplen con los estándares SEO más recientes, maximizando tu visibilidad y generando más clientes potenciales. No se trata de un lujo, sino de una necesidad para crecer en el mercado actual.
+         </p>
+         
+    </div>
+      
+  </section>
+    <section id="servicio">
+    <video autoplay muted loop>
+      <source src="recorte.mp4" type="video/mp4">
+      Tu navegador no soporta videos.
+    </video>
+    <div class="card-container">
+      <div class="card">
+          <h2>Contenido que convierte</h2>
+            <p>
+              Nuestros copywriters transforman la intención de búsqueda en acción con
+              textos persuasivos que guían a tus visitas hasta convertirse en clientes
+              fieles.
+            </p>
+      </div>
+      <div class="card">
+       
+         <h2>Arquitectura SEO de vanguardia</h2>
+            <p>
+              Construimos una base técnica optimizada para Core Web Vitals e IA,
+              garantizando velocidad, rastreabilidad y escalabilidad para que tu web
+              destaque hoy y mañana.
+            </p>
+      </div>
+      <div class="card">
+       
+        <!-- Beneficio 3 -->
+        <h2>Actualización continua</h2>
+        <p>
+          Monitorizamos cada cambio de algoritmo y ajustamos tu sitio de forma
+          proactiva, manteniéndote siempre un paso por delante de la competencia.
+        </p>
+      </div>
+    </div>
+  </section>
+
+
+<section id="porque">
+  <div class="porque-container">
+    <h2>¿Por qué nosotros?</h2>
+    <div class="phrases-container">
+      <p id="phrase"></p>
+    </div>
+  </div>
+</section>
+    
+
+<section id="pronto">
+  <div class="power-shell-container">
+    <div class="power-card">
+      <div class="card-img" style="background-image: url('1.jpeg');"></div>
+      <h3>Gestiona tus monedas de juego sin límites</h3>
+      <p>Administra tus monedas virtuales sin restricciones ni riesgos. Juega a tu manera y ahorra más.</p>
+      </div>
+    <div class="power-card">
+      <div class="card-img" style="background-image: url('2.jpeg');"></div>
+      <h3>Accede a información oculta de perfiles y mucho más</h3>
+      <p>
+        Descubre información oculta de cualquier perfil: nombres, alias, actividad y conexiones. Investiga de forma segura y anónima. El conocimiento es poder.
+      </p>
+    </div>
+    <div class="power-card">
+      <div class="card-img" style="background-image: url('3.jpeg');"></div>
+      <h3>Vigila tu propio sistema como un arquitecto digital</h3>
+      <p>
+        Supervisa tu PC, móvil y red local como un arquitecto digital. Descubre quién se conecta, qué hacen y mantén el control total de tu entorno. Tu red, tus reglas.
+      </p>
+
+    </div>
+  </div>
+</section>
+  <section id="acerca">
+  <div class="acerca-container">
+    <div class="social-icons">
+      <a href="https://mail.google.com" target="_blank">
+        <img src="gmail.jpeg" alt="Gmail">
+      </a>
+      <a href="https://instagram.com" target="_blank">
+        <img src="instagram.jpeg" alt="Instagram">
+      </a>
+      <a href="https://linkedin.com" target="_blank">
+        <img src="linkedin.jpeg" alt="LinkedIn">
+      </a>
+    </div>
+    <div class="acerca-description">
+      <p>
+        Somos desarrolladores de software de alto nivel, con más de 3 años de experiencia
+        resolviendo cualquier reto. Convertimos ideas en realidades digitales y marcamos tendencia.
+        No solo codificamos, innovamos y dominamos el futuro.
+      </p>
+    </div>
+  </div>
+</section>
+
+  <script>
+  
+// Cambiar el fondo del navbar según la sección visible
+const navbar = document.getElementById("navbar");
+const sections = document.querySelectorAll("section");
+
+const observer = new IntersectionObserver(
+  entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const bgColor = getComputedStyle(entry.target).backgroundColor;
+        navbar.style.backgroundColor = bgColor;
+
+        document.querySelectorAll("nav a").forEach(a => a.classList.remove("active"));
+        const activeLink = document.querySelector(`nav a[href="#${entry.target.id}"]`);
+        if (activeLink) activeLink.classList.add("active");
+
+        // Si la sección activa es "acerca", modifica el color de los enlaces a negro; de lo contrario, los deja en blanco
+        if (entry.target.id === "acerca") {
+          document.querySelectorAll("nav a").forEach(a => a.style.color = "#000");
+        } else {
+          document.querySelectorAll("nav a").forEach(a => a.style.color = "white");
+        }
+
+        // Para escritorio, agregar efecto slideIn a las tarjetas de la sección servicio
+        if (entry.target.id === "servicio" && window.innerWidth > 600) {
+          document.querySelectorAll("#servicio .card").forEach(card => {
+            card.classList.add("animate");
+          });
+        }
+      }
+    });
+  },
+  { threshold: 0.6 }
+);
+
+sections.forEach(section => observer.observe(section));
+
+  const phrases = [
+    "Porque nadie lo hace como nosotros.",
+    "Somos lo que tu marca necesita.",
+    "Somos la diferencia entre competir y liderar.",
+    "No seguimos tendencias, las creamos.",
+    "Somos IA. Somos el futuro.",
+    "Lo hacemos mejor. Punto.",
+    "Mientras otros prometen, nosotros cumplimos.",
+    "Convertimos lo imposible en estándar.",
+    "Tu marca merece nuestra genialidad.",
+    "Porque somos la élite digital.",
+    "Dominamos lo que otros apenas entienden.",
+    "Creamos impacto, no solo presencia.",
+    "Porque tu competencia nos teme.",
+    "Tenemos la fórmula ganadora.",
+    "Somos innovación en estado puro.",
+    "No vendemos servicios, entregamos resultados.",
+    "Porque no creemos en lo ordinario.",
+    "Estamos por encima del promedio.",
+    "No seguimos, lideramos.",
+    "Creamos imperios digitales.",
+    "Somos precisión, somos poder.",
+    "Revolucionamos tu presencia online.",
+    "Nuestra estrategia no falla.",
+    "Convertimos clics en clientes.",
+    "Porque solo trabajamos con visionarios.",
+    "Porque somos obsesivos con la perfección.",
+    "Tu éxito es nuestro estándar mínimo.",
+    "Tenemos lo que otros solo fingen tener.",
+    "Porque lo bueno no es suficiente.",
+    "Porque destacamos, siempre.",
+    "No tenemos competencia real.",
+    "Porque transformamos tu marca en autoridad.",
+    "Porque somos inteligencia real, no humo.",
+    "Tus resultados nos representan.",
+    "Estamos hechos para ganar.",
+    "Somos pura estrategia.",
+    "Porque entregamos excelencia.",
+    "Porque sabemos exactamente qué hacer.",
+    "Porque somos brutalmente efectivos.",
+    "Porque tú no quieres lo básico.",
+    "Porque tu marca merece ser leyenda.",
+    "Somos el atajo al éxito.",
+    "Te llevamos donde otros no llegan.",
+    "Porque no improvisamos, dominamos.",
+    "Somos pura conversión.",
+    "No somos una agencia, somos una revolución.",
+    "Porque hacemos que las métricas hablen.",
+    "Porque sabemos jugar y ganar.",
+    "Porque somos fuego digital.",
+    "Porque el crecimiento es nuestra zona cómoda.",
+    "Porque somos estratégicos, no simpáticos.",
+    "Porque vendemos resultados, no ilusiones.",
+    "Porque lo tuyo + lo nuestro = éxito brutal.",
+    "Somos tu ventaja desleal.",
+    "Nadie hace SEO como nosotros.",
+    "Porque nuestra mente es una máquina de escalar.",
+    "Porque dominamos los algoritmos como un idioma.",
+    "Porque tus objetivos nos quedan cortos.",
+    "Porque pensamos diez pasos adelante.",
+    "Porque no descansamos hasta romperla.",
+    "Porque lo hacemos con clase y con ciencia.",
+    "Porque tu marca merece respeto digital.",
+    "Porque hacemos que te encuentren y te amen.",
+    "Porque no existe plan B: solo ganar.",
+    "Porque lo nuestro es estrategia quirúrgica.",
+    "Porque todo lo que tocamos se posiciona.",
+    "Porque no venimos a competir, venimos a arrasar.",
+    "Porque somos el algoritmo encarnado.",
+    "Porque nuestra visión no falla.",
+    "Porque tu marca será la próxima referencia.",
+    "Porque no nos interesa ser modestos.",
+    "Porque cada píxel cuenta y lo sabemos.",
+    "Porque transformamos tráfico en dinero.",
+    "Porque hablamos el idioma de los resultados.",
+    "Porque medimos todo y mejoramos todo.",
+    "Porque lo técnico es solo el inicio.",
+    "Porque convertimos datos en poder.",
+    "Porque tenemos hambre de crecimiento.",
+    "Porque hacemos magia con lógica.",
+    "Porque nuestros errores enseñan más que los éxitos ajenos.",
+    "Porque el status quo nos aburre.",
+    "Porque nuestros clientes brillan.",
+    "Porque somos los mejores, y lo sabemos.",
+    "Porque vamos a lo grande o no vamos.",
+    "Porque no buscamos likes, buscamos impacto.",
+    "Porque vivimos para escalar marcas.",
+    "Porque no trabajamos, ejecutamos con visión.",
+    "Porque cada clic que generamos tiene intención.",
+    "Porque no dormimos en laureles, dormimos en dashboards.",
+    "Porque tu marca va a romper el molde.",
+    "Porque cuando dices “wow”, es por nosotros.",
+    "Porque somos una máquina de resultados.",
+    "Porque tu confianza nos potencia.",
+    "Porque convertimos ideas en autoridad.",
+    "Porque tu éxito nos obsesiona.",
+    "Porque nuestro ADN es puro crecimiento.",
+    "Porque optimizamos cada segundo de tu presencia digital.",
+    "Porque donde estás ahora no es tu límite.",
+    "Porque contigo, jugamos a ganar.",
+    "Porque no hay plan mejor que nosotros."
+  ];
+
+  let currentPhrase = 0;
+  const phraseElement = document.getElementById("phrase");
+
+  function showPhrase() {
+    phraseElement.style.opacity = 0;
+    setTimeout(() => {
+      phraseElement.innerText = phrases[currentPhrase];
+      phraseElement.style.opacity = 1;
+      currentPhrase = (currentPhrase + 1) % phrases.length;
+    }, 500); // tiempo de fade-out
+  }
+
+  showPhrase();
+  setInterval(showPhrase, 2000);
+
+  function startGallery() {
+    const cards = document.querySelectorAll('#pronto .power-card');
+    let current = 0;
+    if (cards.length === 0) return;
+    
+    // Aseguramos que todas estén ocultas al inicio
+    cards.forEach(card => card.classList.remove('active'));
+    // Mostramos la primera tarjeta activa
+    cards[current].classList.add('active');
+    
+    setInterval(() => {
+      cards[current].classList.remove('active');
+      current = (current + 1) % cards.length;
+      cards[current].classList.add('active');
+    }, 3000);
+  }
+
+  // Ejecutamos el gallery solo en dispositivos móviles
+  if (window.innerWidth <= 600) {
+    startGallery();
+  }
+  
+  // Opcional: actualizar en caso de redimensionar la ventana
+  window.addEventListener('resize', () => {
+    if (window.innerWidth <= 600) {
+      startGallery();
+    }
+  });
+</script>
+  
+  </script>
+
+    <a href="https://api.whatsapp.com/send/?phone=573147755541&text&type=phone_number&app_absent=0" class="whatsapp-btn" target="_blank">
+        <img src="WhatsApp.svg" alt="WhatsApp">
+</body>
+</html>
